@@ -1,0 +1,30 @@
+import React from "react";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
+
+function PokemonAutocomplete({
+  filteredPokemonList,
+  handlePokemonSelection,
+  handleSearchInputChange,
+}) {
+  return (
+    <Autocomplete
+      id="pokemon-search"
+      options={filteredPokemonList}
+      getOptionLabel={(option) =>
+        option.name.charAt(0).toUpperCase() + option.name.slice(1)
+      }
+      onChange={handlePokemonSelection}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant="outlined"
+          placeholder="Enter Pokemon name here"
+          onChange={handleSearchInputChange}
+        />
+      )}
+    />
+  );
+}
+
+export default PokemonAutocomplete;

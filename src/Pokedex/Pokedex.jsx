@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
-import { Forward } from "@material-ui/icons";
+import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
+import EvolutionChain from "./EvolutionChain";
 
 function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -50,81 +49,60 @@ function Pokedex() {
     pokemon.name.includes(searchQuery.toLowerCase())
   );
 
-  const renderEvolutionChain = (chain) => {
-    const pokemon = chain.species;
-    return (
-      <div key={pokemon.name} style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ textAlign: "center" }}>
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-              pokemon.url.match(/(\d+)\/$/)[1]
-            }.png`}
-            alt={pokemon.name}
-          />
-          <br />
-          <p>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
-        </div>
-        {chain.evolves_to.length > 0 &&
-          chain.evolves_to.map((evolution) => (
-            <React.Fragment key={evolution.species.name}>
-              <Forward style={{ margin: "0 10px" }} />
-              {renderEvolutionChain(evolution)}
-            </React.Fragment>
-          ))}
-      </div>
-    );
-  };
-
   return (
     <div>
-      <Autocomplete
-        id="pokemon-search"
-        options={filteredPokemonList}
-        getOptionLabel={(option) =>
-          option.name.charAt(0).toUpperCase() + option.name.slice(1)
-        }
-        onChange={handlePokemonSelection}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="outlined"
-            placeholder="Enter Pokemon name here"
-            onChange={handleSearchInputChange}
-          />
-        )}
+      <PokemonAutocomplete
+        filteredPokemonList={filteredPokemonList}
+        handlePokemonSelection={handlePokemonSelection}
+        handleSearchInputChange={handleSearchInputChange}
       />
       {selectedPokemon && (
-        <div>
+        <div style={{ marginLeft: "20px" }}>
           <h2>
             {selectedPokemon.name.charAt(0).toUpperCase() +
               selectedPokemon.name.slice(1)}
           </h2>
+          {pokemonSpecies ? (
+            <h4 style={{ marginRight: "20px" }}>
+              <p>
+                {
+                  pokemonSpecies.genera.find((g) => g.language.name === "en")
+                    .genus
+                }
+              </p>
+            </h4>
+          ) : (
+            <p>Loading...</p>
+          )}
           <img
             src={selectedPokemon.sprites.front_default}
             alt={selectedPokemon.name}
+            style={{ marginRight: "50px" }}
           />
           <img
             src={selectedPokemon.sprites.front_shiny}
             alt={`shiny-${selectedPokemon.name}`}
           />
-          <p>Average Height: {selectedPokemon.height / 10} m</p>
-          <p>Average Weight: {selectedPokemon.weight / 10} kg</p>
-          <p>
-            Abilities:{" "}
-            {selectedPokemon.abilities
-              .map((ability) => ability.ability.name)
-              .join(", ")}
-          </p>
-          <p>
-            Type:{" "}
-            {selectedPokemon.types
-              .map(
-                (type) =>
-                  type.type.name.charAt(0).toUpperCase() +
-                  type.type.name.slice(1)
-              )
-              .join("/")}
-          </p>
+          <div style={{ marginLeft: "20px" }}>
+            <p>Average Height: {selectedPokemon.height / 10} m</p>
+            <p>Average Weight: {selectedPokemon.weight / 10} kg</p>
+            <p>
+              Abilities:{" "}
+              {selectedPokemon.abilities
+                .map((ability) => ability.ability.name)
+                .join(", ")}
+            </p>
+            <p>
+              Type:{" "}
+              {selectedPokemon.types
+                .map(
+                  (type) =>
+                    type.type.name.charAt(0).toUpperCase() +
+                    type.type.name.slice(1)
+                )
+                .join("/")}
+            </p>
+          </div>
           {pokemonSpecies && (
             <div>
               <h3>Description</h3>
@@ -146,7 +124,11 @@ function Pokedex() {
                     .replace(/ -\n/g, " - ")
                     .replace(/-\n/g, "-")
                     .replace(/\n/g, " ");
-                  return <p>{lastEnglishDescription}</p>;
+                  return (
+                    <div style={{ marginLeft: "20px" }}>
+                      <p>{lastEnglishDescription}</p>
+                    </div>
+                  );
                 } else {
                   return null;
                 }
@@ -157,7 +139,7 @@ function Pokedex() {
           {pokemonSpecies && (
             <div>
               <h3>Evolution Chain</h3>
-              {evolutionChain && renderEvolutionChain(evolutionChain)}
+              {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
             </div>
           )}
         </div>

@@ -13,9 +13,6 @@ const useStyles = makeStyles((theme) => ({
   pokemonInfoItem: {
     marginBottom: "10px",
   },
-  pokemonDescriptionContainer: {
-    marginLeft: "20px",
-  },
 }));
 
 export default useStyles;

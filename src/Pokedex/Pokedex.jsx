@@ -1,60 +1,38 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
 import EvolutionChain from "./EvolutionChain";
+import useSelectedPokemon from "./useSelectedPokemon";
+import { fetchPokemonList } from "./api";
 
 function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [pokemonSpecies, setPokemonSpecies] = useState(null);
-  const [evolutionChain, setEvolutionChain] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("https://pokeapi.co/api/v2/pokemon?limit=1000")
-      .then((response) => setPokemonList(response.data.results))
-      .catch((error) => console.log(error));
+    const fetchData = async () => {
+      const list = await fetchPokemonList();
+      setPokemonList(list);
+    };
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    if (selectedPokemon) {
-      axios
-        .get(selectedPokemon.species.url)
-        .then((response) => {
-          setPokemonSpecies(response.data);
-          axios
-            .get(response.data.evolution_chain.url)
-            .then((response) => setEvolutionChain(response.data.chain))
-            .catch((error) => console.log(error));
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [selectedPokemon]);
-
-  const handlePokemonSelection = async (event, value) => {
-    if (value) {
-      const response = await axios.get(value.url);
-      setSelectedPokemon(response.data);
-    } else {
-      setSelectedPokemon(null);
-    }
-  };
-
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const filteredPokemonList = pokemonList.filter((pokemon) =>
-    pokemon.name.includes(searchQuery.toLowerCase())
+    pokemon.name.includes(searchQuery)
   );
+
+  const {
+    selectedPokemon,
+    pokemonSpecies,
+    evolutionChain,
+    handlePokemonSelection,
+  } = useSelectedPokemon();
 
   return (
     <div>
       <PokemonAutocomplete
         filteredPokemonList={filteredPokemonList}
         handlePokemonSelection={handlePokemonSelection}
-        handleSearchInputChange={handleSearchInputChange}
+        handleSearchInputChange={(event) => setSearchQuery(event.target.value)}
       />
       {selectedPokemon && (
         <div style={{ marginLeft: "20px" }}>

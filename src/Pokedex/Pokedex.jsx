@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+import { Forward } from "@material-ui/icons";
 
 function Pokedex() {
   const [pokemonList, setPokemonList] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [pokemonSpecies, setPokemonSpecies] = useState(null);
+  const [evolutionChain, setEvolutionChain] = useState(null);
 
   useEffect(() => {
     axios
@@ -20,7 +22,13 @@ function Pokedex() {
     if (selectedPokemon) {
       axios
         .get(selectedPokemon.species.url)
-        .then((response) => setPokemonSpecies(response.data))
+        .then((response) => {
+          setPokemonSpecies(response.data);
+          axios
+            .get(response.data.evolution_chain.url)
+            .then((response) => setEvolutionChain(response.data.chain))
+            .catch((error) => console.log(error));
+        })
         .catch((error) => console.log(error));
     }
   }, [selectedPokemon]);
@@ -41,6 +49,31 @@ function Pokedex() {
   const filteredPokemonList = pokemonList.filter((pokemon) =>
     pokemon.name.includes(searchQuery.toLowerCase())
   );
+
+  const renderEvolutionChain = (chain) => {
+    const pokemon = chain.species;
+    return (
+      <div key={pokemon.name} style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+              pokemon.url.match(/(\d+)\/$/)[1]
+            }.png`}
+            alt={pokemon.name}
+          />
+          <br />
+          <p>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</p>
+        </div>
+        {chain.evolves_to.length > 0 &&
+          chain.evolves_to.map((evolution) => (
+            <React.Fragment key={evolution.species.name}>
+              <Forward style={{ margin: "0 10px" }} />
+              {renderEvolutionChain(evolution)}
+            </React.Fragment>
+          ))}
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -118,6 +151,13 @@ function Pokedex() {
                   return null;
                 }
               })()}
+            </div>
+          )}
+
+          {pokemonSpecies && (
+            <div>
+              <h3>Evolution Chain</h3>
+              {evolutionChain && renderEvolutionChain(evolutionChain)}
             </div>
           )}
         </div>

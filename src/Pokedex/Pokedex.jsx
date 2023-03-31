@@ -30,7 +30,6 @@ function Pokedex() {
     handlePokemonSelection,
   } = useSelectedPokemon();
 
-  console.log(evolutionChain.evolves_to.length);
   return (
     <div>
       <PokemonAutocomplete
@@ -124,12 +123,14 @@ function Pokedex() {
               })()}
             </div>
           )}
-          {pokemonSpecies && evolutionChain.evolves_to.length > 0 && (
-            <div className={classes.pokemonInfoItem}>
-              <h3>Evolutions</h3>
-              {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
-            </div>
-          )}
+          {pokemonSpecies &&
+            evolutionChain &&
+            evolutionChain.evolves_to.length > 0 && (
+              <div className={classes.pokemonInfoItem}>
+                <h3>Evolutions</h3>
+                {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
+              </div>
+            )}
         </div>
       )}
     </div>

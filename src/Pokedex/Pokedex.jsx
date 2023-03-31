@@ -3,8 +3,11 @@ import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
 import EvolutionChain from "./EvolutionChain";
 import useSelectedPokemon from "./useSelectedPokemon";
 import { fetchPokemonList } from "./api";
+import Sparkles from "./components/Sparkles/Sparkles";
+import useStyles from "./Pokedex.styles.js";
 
 function Pokedex() {
+  const classes = useStyles();
   const [pokemonList, setPokemonList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -35,13 +38,13 @@ function Pokedex() {
         handleSearchInputChange={(event) => setSearchQuery(event.target.value)}
       />
       {selectedPokemon && (
-        <div style={{ marginLeft: "20px" }}>
-          <h2>
+        <div className={classes.selectedPokemonContainer}>
+          <h2 className={classes.pokemonName}>
             {selectedPokemon.name.charAt(0).toUpperCase() +
               selectedPokemon.name.slice(1)}
           </h2>
           {pokemonSpecies ? (
-            <h4 style={{ marginRight: "20px" }}>
+            <h4 className={classes.pokemonInfoItem}>
               <p>
                 {
                   pokemonSpecies.genera.find((g) => g.language.name === "en")
@@ -55,22 +58,29 @@ function Pokedex() {
           <img
             src={selectedPokemon.sprites.front_default}
             alt={selectedPokemon.name}
-            style={{ marginRight: "50px" }}
+            className={classes.pokemonInfoItem}
           />
-          <img
-            src={selectedPokemon.sprites.front_shiny}
-            alt={`shiny-${selectedPokemon.name}`}
-          />
-          <div style={{ marginLeft: "20px" }}>
-            <p>Average Height: {selectedPokemon.height / 10} m</p>
-            <p>Average Weight: {selectedPokemon.weight / 10} kg</p>
-            <p>
+          <Sparkles>
+            <img
+              src={selectedPokemon.sprites.front_shiny}
+              alt={`shiny-${selectedPokemon.name}`}
+              className={classes.pokemonInfoItem}
+            />
+          </Sparkles>
+          <div className={classes.pokemonInfoContainer}>
+            <p className={classes.pokemonInfoItem}>
+              Average Height: {selectedPokemon.height / 10} m
+            </p>
+            <p className={classes.pokemonInfoItem}>
+              Average Weight: {selectedPokemon.weight / 10} kg
+            </p>
+            <p className={classes.pokemonInfoItem}>
               Abilities:{" "}
               {selectedPokemon.abilities
                 .map((ability) => ability.ability.name)
                 .join(", ")}
             </p>
-            <p>
+            <p className={classes.pokemonInfoItem}>
               Type:{" "}
               {selectedPokemon.types
                 .map(
@@ -82,8 +92,8 @@ function Pokedex() {
             </p>
           </div>
           {pokemonSpecies && (
-            <div>
-              <h3>Description</h3>
+            <div className={classes.pokemonDescriptionContainer}>
+              <h3 className={classes.pokemonInfoItem}>Description</h3>
               {(() => {
                 let lastEnglishDescription = null;
                 for (const entry of pokemonSpecies.flavor_text_entries.reverse()) {
@@ -113,9 +123,8 @@ function Pokedex() {
               })()}
             </div>
           )}
-
           {pokemonSpecies && (
-            <div>
+            <div className={classes.pokemonInfoItem}>
               <h3>Evolution Chain</h3>
               {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
             </div>

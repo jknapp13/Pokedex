@@ -103,9 +103,20 @@ function Pokedex() {
                     break;
                   }
                 }
-                return lastEnglishDescription ? (
-                  <p>{lastEnglishDescription}</p>
-                ) : null;
+                if (lastEnglishDescription) {
+                  // replace the Unicode characters returned from PokeAPI data
+                  lastEnglishDescription = lastEnglishDescription
+                    .replace(/\u2191/g, "")
+                    .replace(/\f/g, "\n")
+                    .replace(/\u00ad\n/g, "")
+                    .replace(/\u00ad/g, "")
+                    .replace(/ -\n/g, " - ")
+                    .replace(/-\n/g, "-")
+                    .replace(/\n/g, " ");
+                  return <p>{lastEnglishDescription}</p>;
+                } else {
+                  return null;
+                }
               })()}
             </div>
           )}

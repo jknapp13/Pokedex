@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# Welcome, Trainer!
+
+Explore the wide array of Pokémon with your very own Pokédex on your journey!
+Search with a convenient AutoComplete to discover facts about Pokémon you find on your travels!
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

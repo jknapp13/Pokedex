@@ -45,9 +45,39 @@ function Pokedex() {
       />
       {selectedPokemon && (
         <div className={classes.selectedPokemonContainer}>
-          <div style={{ paddingLeft: "25px", paddingTop: "15px" }}>
-            <CircleTwoTone style={{ fontSize: "75px", color: "blue" }} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingTop: "15px",
+              marginLeft: "15px",
+            }}
+          >
+            <CircleTwoTone
+              sx={{}}
+              style={{
+                fontSize: "75px",
+                color: "#00BFFF",
+                backgroundColor: "rgba(86, 184, 245, .7)",
+                borderRadius: "100%",
+                border: "4px solid white",
+                boxSizing: "border-box",
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "75px",
+                paddingTop: "5px",
+              }}
+            >
+              <CircleTwoTone style={{ color: "darkred" }} />
+              <CircleTwoTone style={{ color: "yellow" }} />
+              <CircleTwoTone style={{ color: "green" }} />
+            </div>
           </div>
+
           {/* <div> */}
           <div className={classes.pokedexMainScreen}>
             <h2 className={classes.pokemonName}>{selectedPokemon.name}</h2>

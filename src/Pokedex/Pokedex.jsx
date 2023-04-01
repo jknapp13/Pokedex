@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
+import { CircleTwoTone } from "@mui/icons-material";
 import EvolutionChain from "./EvolutionChain";
 import useSelectedPokemon from "./useSelectedPokemon";
 import { fetchPokemonList } from "./api";
@@ -44,36 +45,37 @@ function Pokedex() {
       />
       {selectedPokemon && (
         <div className={classes.selectedPokemonContainer}>
-          <div>
-            <div className={classes.pokedexMainScreen}>
-              <h2 className={classes.pokemonName}>{selectedPokemon.name}</h2>
-              {pokemonSpecies ? (
-                <h4 className={classes.pokemonInfoItem}>
-                  {
-                    pokemonSpecies.genera.find((g) => g.language.name === "en")
-                      ?.genus
-                  }
-                </h4>
-              ) : (
-                <p>Loading...</p>
-              )}
-              <h5 className={classes.pokemonType}>
-                {selectedPokemon.types
-                  .map((type) => type.type.name)
-                  .join(" / ")}
-              </h5>
-              <img
-                src={selectedPokemon.sprites.front_default}
-                alt={selectedPokemon.name}
-              />
-              <Sparkles>
-                <img
-                  src={selectedPokemon.sprites.front_shiny}
-                  alt={`shiny-${selectedPokemon.name}`}
-                />
-              </Sparkles>
-            </div>
+          <div style={{ paddingLeft: "25px", paddingTop: "15px" }}>
+            <CircleTwoTone style={{ fontSize: "75px", color: "blue" }} />
           </div>
+          {/* <div> */}
+          <div className={classes.pokedexMainScreen}>
+            <h2 className={classes.pokemonName}>{selectedPokemon.name}</h2>
+            {pokemonSpecies ? (
+              <h4 className={classes.pokemonInfoItem}>
+                {
+                  pokemonSpecies.genera.find((g) => g.language.name === "en")
+                    ?.genus
+                }
+              </h4>
+            ) : (
+              <p>Loading...</p>
+            )}
+            <h5 className={classes.pokemonType}>
+              {selectedPokemon.types.map((type) => type.type.name).join(" / ")}
+            </h5>
+            <img
+              src={selectedPokemon.sprites.front_default}
+              alt={selectedPokemon.name}
+            />
+            <Sparkles>
+              <img
+                src={selectedPokemon.sprites.front_shiny}
+                alt={`shiny-${selectedPokemon.name}`}
+              />
+            </Sparkles>
+          </div>
+          {/* </div> */}
           <div className={classes.pokemonInfoContainer}>
             <p className={classes.pokemonInfoItem}>
               Average Height: {selectedPokemon.height / 10} m
@@ -84,7 +86,11 @@ function Pokedex() {
             <p className={classes.pokemonInfoItem}>
               Abilities:{" "}
               {selectedPokemon.abilities
-                .map((ability) => ability.ability.name)
+                .map(
+                  (ability) =>
+                    ability.ability.name.charAt(0).toUpperCase() +
+                    ability.ability.name.slice(1)
+                )
                 .join(", ")}
             </p>
           </div>

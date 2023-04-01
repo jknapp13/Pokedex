@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "powderblue",
     width: "350px",
     textAlign: "center",
-    margin: "50px 0 0 50px",
+    margin: "20px 0 0 50px",
     paddingBottom: "10px",
     display: "inline-block",
     border: "20px inset white",
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "5px",
   },
   pokemonInfoItem: {
-    textTransform: "capitalize",
     margin: "0 0 5px 0",
     fontFamily: "'Robot Mono', monospace",
   },

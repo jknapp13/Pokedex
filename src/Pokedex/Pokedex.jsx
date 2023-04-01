@@ -27,8 +27,13 @@ function Pokedex() {
     selectedPokemon,
     pokemonSpecies,
     evolutionChain,
+    setSelectedEvolution,
     handlePokemonSelection,
   } = useSelectedPokemon();
+
+  const handleEvolutionSelection = (evolution) => {
+    setSelectedEvolution(evolution);
+  };
 
   return (
     <div>
@@ -39,34 +44,36 @@ function Pokedex() {
       />
       {selectedPokemon && (
         <div className={classes.selectedPokemonContainer}>
-          <h2 className={classes.pokemonName}>
-            {selectedPokemon.name.charAt(0).toUpperCase() +
-              selectedPokemon.name.slice(1)}
-          </h2>
-          {pokemonSpecies ? (
-            <h4 className={classes.pokemonInfoItem}>
-              <p>
-                {
-                  pokemonSpecies.genera.find((g) => g.language.name === "en")
-                    .genus
-                }
-              </p>
-            </h4>
-          ) : (
-            <p>Loading...</p>
-          )}
-          <img
-            src={selectedPokemon.sprites.front_default}
-            alt={selectedPokemon.name}
-            className={classes.pokemonInfoItem}
-          />
-          <Sparkles>
-            <img
-              src={selectedPokemon.sprites.front_shiny}
-              alt={`shiny-${selectedPokemon.name}`}
-              className={classes.pokemonInfoItem}
-            />
-          </Sparkles>
+          <div>
+            <div className={classes.pokedexMainScreen}>
+              <h2 className={classes.pokemonName}>{selectedPokemon.name}</h2>
+              {pokemonSpecies ? (
+                <h4 className={classes.pokemonInfoItem}>
+                  {
+                    pokemonSpecies.genera.find((g) => g.language.name === "en")
+                      ?.genus
+                  }
+                </h4>
+              ) : (
+                <p>Loading...</p>
+              )}
+              <h5 className={classes.pokemonType}>
+                {selectedPokemon.types
+                  .map((type) => type.type.name)
+                  .join(" / ")}
+              </h5>
+              <img
+                src={selectedPokemon.sprites.front_default}
+                alt={selectedPokemon.name}
+              />
+              <Sparkles>
+                <img
+                  src={selectedPokemon.sprites.front_shiny}
+                  alt={`shiny-${selectedPokemon.name}`}
+                />
+              </Sparkles>
+            </div>
+          </div>
           <div className={classes.pokemonInfoContainer}>
             <p className={classes.pokemonInfoItem}>
               Average Height: {selectedPokemon.height / 10} m
@@ -80,18 +87,8 @@ function Pokedex() {
                 .map((ability) => ability.ability.name)
                 .join(", ")}
             </p>
-            <p className={classes.pokemonInfoItem}>
-              Type:{" "}
-              {selectedPokemon.types
-                .map(
-                  (type) =>
-                    type.type.name.charAt(0).toUpperCase() +
-                    type.type.name.slice(1)
-                )
-                .join("/")}
-            </p>
           </div>
-          {pokemonSpecies && (
+          {pokemonSpecies && pokemonSpecies.flavor_text_entries > 0 && (
             <div>
               <h3 className={classes.pokemonInfoItem}>Description</h3>
               {(() => {
@@ -126,9 +123,19 @@ function Pokedex() {
           {pokemonSpecies &&
             evolutionChain &&
             evolutionChain.evolves_to.length > 0 && (
-              <div className={classes.pokemonInfoItem}>
-                <h3>Evolutions</h3>
-                {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
+              <div style={{ width: "500px", display: "inline-block" }}>
+                <div
+                  style={{ textAlign: "center" }}
+                  className={classes.pokemonInfoItem}
+                >
+                  <h3>Evolutions</h3>
+                  {pokemonSpecies && (
+                    <EvolutionChain
+                      chain={evolutionChain}
+                      onClick={handleEvolutionSelection}
+                    />
+                  )}
+                </div>
               </div>
             )}
         </div>

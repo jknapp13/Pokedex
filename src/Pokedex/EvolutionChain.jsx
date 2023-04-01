@@ -4,8 +4,11 @@ import { Forward } from "@material-ui/icons";
 function EvolutionChain({ chain }) {
   const pokemon = chain?.species;
   return (
-    <div key={pokemon?.name} style={{ display: "flex", alignItems: "center" }}>
-      <div style={{ textAlign: "center" }}>
+    <div
+      key={pokemon?.name}
+      style={{ display: "inline-flex", alignItems: "center" }}
+    >
+      <div>
         <img
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
             pokemon?.url.match(/(\d+)\/$/)[1]

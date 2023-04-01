@@ -23,6 +23,10 @@ function PokemonAutocomplete({
           onChange={handleSearchInputChange}
         />
       )}
+      autoHighlight
+      clearIcon
+      handleHomeEndKeys
+      autoComplete
     />
   );
 }

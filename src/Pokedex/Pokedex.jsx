@@ -29,12 +29,13 @@ function Pokedex() {
     selectedPokemon,
     pokemonSpecies,
     evolutionChain,
+    shouldFlashIndicator,
     handlePokemonSelection,
   } = useSelectedPokemon();
 
   return (
     <div className={classes.selectedPokemonContainer}>
-      <IndicatorLights />
+      <IndicatorLights shouldFlashIndicator={shouldFlashIndicator} />
       <hr className={classes.hr} />
       <div className={classes.autocompleteContainer}>
         <PokemonAutocomplete

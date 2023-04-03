@@ -1,14 +1,12 @@
 import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
-// import useStyles from "../../Pokedex.styles";
 
 function PokemonAutocomplete({
   filteredPokemonList,
   handlePokemonSelection,
   handleSearchInputChange,
 }) {
-  // const classes = useStyles();
   return (
     <Autocomplete
       id="pokemon-search"

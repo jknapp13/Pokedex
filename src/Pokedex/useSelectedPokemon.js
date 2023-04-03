@@ -5,6 +5,7 @@ function useSelectedPokemon() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [pokemonSpecies, setPokemonSpecies] = useState(null);
   const [evolutionChain, setEvolutionChain] = useState(null);
+  const [shouldFlashIndicator, setShouldFlashIndicator] = useState(false);
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -28,12 +29,18 @@ function useSelectedPokemon() {
     } else {
       setSelectedPokemon(null);
     }
+
+    setShouldFlashIndicator(true);
+    setTimeout(() => {
+      setShouldFlashIndicator(false);
+    }, 250);
   };
 
   return {
     selectedPokemon,
     pokemonSpecies,
     evolutionChain,
+    shouldFlashIndicator,
     handlePokemonSelection,
   };
 }

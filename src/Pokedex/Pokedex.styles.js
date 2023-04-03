@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     border: "4px solid white",
     boxSizing: "border-box",
   },
+  flash: {
+    color: "white",
+    transition: "color 0.5s ease-in-out",
+  },
   miniIndicatorLightsContainer: {
     display: "flex",
     justifyContent: "space-between",

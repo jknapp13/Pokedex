@@ -8,9 +8,49 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
     height: "700px",
   },
+  indicatorLightsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    paddingTop: "15px",
+    margin: "0 0 15px 30px",
+  },
+  mainIndicatorLight: {
+    fontSize: "75px !important",
+    color: "#00BFFF",
+    backgroundColor: "rgba(86, 184, 245, .7)",
+    borderRadius: "100%",
+    border: "4px solid white",
+    boxSizing: "border-box",
+  },
+  miniIndicatorLightsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "85px",
+    padding: "7px 0 0 10px",
+  },
+  miniIndicatorLight: {
+    color: (props) => props.color + "!important" || "red",
+    borderRadius: "100%",
+    border: "1px solid black",
+  },
+  textField: {
+    fontSize: "12px !important",
+  },
+  hr: {
+    height: "5px",
+    borderTop: "1px solid black",
+    borderBottom: "2px outset black",
+    paddingTop: "5px",
+  },
+  autocompleteContainer: {
+    backgroundColor: "powderblue",
+    width: "65%",
+    margin: "0 0 0 83px",
+  },
   pokedexMainScreen: {
     backgroundColor: "powderblue",
     width: "350px",
+    height: "197px",
     textAlign: "center",
     margin: "15px 0 0 50px",
     paddingBottom: "10px",
@@ -33,12 +73,18 @@ const useStyles = makeStyles((theme) => ({
   pokemonType: {
     fontFamily: "'Robot Mono', monospace",
     fontSize: "12px",
-    marginTop: "5px",
+    margin: "5px 0 0 0",
   },
   pokemonInfoItem: {
     margin: "0 0 5px 0",
     fontFamily: "'Robot Mono', monospace",
   },
+  pokemonEvolutionContainer: {
+    width: "500px",
+    display: "inline-block",
+    textAlign: "center",
+  },
+  h3: { margin: 0 },
 }));
 
 export default useStyles;

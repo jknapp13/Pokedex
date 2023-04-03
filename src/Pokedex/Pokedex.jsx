@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
-import { Circle } from "@mui/icons-material";
 import EvolutionChain from "./EvolutionChain";
 import useSelectedPokemon from "./useSelectedPokemon";
 import { fetchPokemonList } from "./api";
 import Sparkles from "./components/Sparkles/Sparkles";
 import useStyles from "./Pokedex.styles.js";
+import IndicatorLights from "./components/IndicatorLights/IndicatorLights";
 
 function Pokedex() {
   const classes = useStyles();
@@ -33,72 +33,9 @@ function Pokedex() {
 
   return (
     <div className={classes.selectedPokemonContainer}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingTop: "15px",
-          margin: "0 0 15px 30px",
-        }}
-      >
-        <Circle
-          sx={{}}
-          style={{
-            fontSize: "75px",
-            color: "#00BFFF",
-            backgroundColor: "rgba(86, 184, 245, .7)",
-            borderRadius: "100%",
-            border: "4px solid white",
-            boxSizing: "border-box",
-          }}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "85px",
-            // paddingTop: "5px",
-            padding: "7px 0 0 10px",
-          }}
-        >
-          <Circle
-            style={{
-              color: "red",
-              borderRadius: "100%",
-              border: "1px solid black",
-            }}
-          />
-          <Circle
-            style={{
-              color: "yellow",
-              borderRadius: "100%",
-              border: "1px solid black",
-            }}
-          />
-          <Circle
-            style={{
-              color: "chartreuse",
-              borderRadius: "100%",
-              border: "1px solid black",
-            }}
-          />
-        </div>
-      </div>
-      <hr
-        style={{
-          height: "5px",
-          borderTop: "1px solid black",
-          borderBottom: "2px outset black",
-          paddingTop: "5px",
-        }}
-      />
-      <div
-        style={{
-          backgroundColor: "powderblue",
-          width: "65%",
-          margin: "0 0 0 83px",
-        }}
-      >
+      <IndicatorLights />
+      <hr className={classes.hr} />
+      <div className={classes.autocompleteContainer}>
         <PokemonAutocomplete
           filteredPokemonList={filteredPokemonList}
           handlePokemonSelection={handlePokemonSelection}
@@ -107,7 +44,7 @@ function Pokedex() {
           }
         />
       </div>
-      <div className={classes.pokedexMainScreen} style={{ height: "197px" }}>
+      <div className={classes.pokedexMainScreen}>
         {selectedPokemon && (
           <div>
             <h2 className={classes.pokemonName}>{selectedPokemon?.name}</h2>
@@ -203,12 +140,9 @@ function Pokedex() {
         pokemonSpecies &&
         evolutionChain &&
         evolutionChain?.evolves_to.length > 0 && (
-          <div style={{ width: "500px", display: "inline-block" }}>
-            <div
-              style={{ textAlign: "center" }}
-              className={classes.pokemonInfoItem}
-            >
-              <h3 style={{ margin: 0 }}>Evolutions</h3>
+          <div className={classes.pokemonEvolutionContainer}>
+            <div className={classes.pokemonInfoItem}>
+              <h3 className={classes.h3}>Evolutions</h3>
               {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
             </div>
           </div>

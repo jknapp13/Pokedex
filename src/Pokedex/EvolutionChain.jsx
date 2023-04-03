@@ -3,6 +3,7 @@ import { Forward } from "@material-ui/icons";
 
 function EvolutionChain({ chain }) {
   const pokemon = chain?.species;
+
   return (
     <div
       key={pokemon?.name}
@@ -14,9 +15,12 @@ function EvolutionChain({ chain }) {
             pokemon?.url.match(/(\d+)\/$/)[1]
           }.png`}
           alt={pokemon?.name}
+          style={{ width: "75%" }}
         />
         <br />
-        <p>{pokemon?.name.charAt(0).toUpperCase() + pokemon?.name.slice(1)}</p>
+        <p style={{ margin: 0, padding: 0 }}>
+          {pokemon?.name.charAt(0).toUpperCase() + pokemon?.name.slice(1)}
+        </p>
       </div>
       {chain?.evolves_to && chain?.evolves_to.length > 0 ? (
         <div style={{ display: "flex", alignItems: "center" }}>

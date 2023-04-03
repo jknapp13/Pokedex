@@ -2,21 +2,21 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   selectedPokemonContainer: {
-    marginLeft: "20px",
-    backgroundColor: "red",
+    margin: "10px 0 0 10px",
+    backgroundColor: "firebrick",
     maxWidth: "500px",
     borderRadius: "20px",
-    height: "100%",
+    height: "700px",
   },
   pokedexMainScreen: {
     backgroundColor: "powderblue",
     width: "350px",
     textAlign: "center",
-    margin: "20px 0 0 50px",
+    margin: "15px 0 0 50px",
     paddingBottom: "10px",
     display: "inline-block",
     border: "20px inset white",
-    borderRadius: "25px",
+    borderRadius: "2%",
   },
   pokemonName: {
     textTransform: "capitalize",
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pokemonInfoContainer: {
     margin: "20px 0 0 20px",
+    fontSize: "12px",
   },
   pokemonType: {
     fontFamily: "'Robot Mono', monospace",

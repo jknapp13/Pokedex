@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PokemonAutocomplete from "./components/Autocomplete/Autocomplete";
-import EvolutionChain from "./EvolutionChain";
 import useSelectedPokemon from "./useSelectedPokemon";
 import { fetchPokemonList } from "./api";
-import Sparkles from "./components/Sparkles/Sparkles";
-import useStyles from "./Pokedex.styles.js";
 import IndicatorLights from "./components/IndicatorLights/IndicatorLights";
+import MainScreen from "./components/MainScreen/MainScreen";
+import Details from "./components/Details/Details";
+import PokemonEvolutions from "./components/EvolutionChain/PokemonEvolutions";
+import useStyles from "./Pokedex.styles.js";
 
 function Pokedex() {
   const classes = useStyles();
@@ -49,62 +50,23 @@ function Pokedex() {
           <div>
             <h2 className={classes.pokemonName}>{selectedPokemon?.name}</h2>
             {selectedPokemon && (
-              <div>
-                {pokemonSpecies ? (
-                  <h4 className={classes.pokemonInfoItem}>
-                    {
-                      pokemonSpecies?.genera.find(
-                        (g) => g.language.name === "en"
-                      )?.genus
-                    }
-                  </h4>
-                ) : (
-                  <p>Loading...</p>
-                )}
-                <h5 className={classes.pokemonType}>
-                  {selectedPokemon?.types
-                    .map((type) => type.type.name)
-                    .join(" / ")}
-                </h5>
-                <img
-                  src={selectedPokemon?.sprites.front_default}
-                  alt={selectedPokemon?.name}
-                />
-                <Sparkles>
-                  <img
-                    src={selectedPokemon?.sprites.front_shiny}
-                    alt={`shiny-${selectedPokemon?.name}`}
-                  />
-                </Sparkles>
-              </div>
+              <MainScreen
+                selectedPokemon={selectedPokemon}
+                pokemonSpecies={pokemonSpecies}
+              />
             )}
           </div>
         )}
       </div>
-
       <div className={classes.pokemonInfoContainer}>
         {selectedPokemon && (
           <>
-            <p className={classes.pokemonInfoItem}>
-              Average Height: {selectedPokemon?.height / 10}m
-            </p>
-            <p className={classes.pokemonInfoItem}>
-              Average Weight: {selectedPokemon?.weight / 10}kg
-            </p>
-            <p className={classes.pokemonInfoItem}>
-              Abilities:{" "}
-              {selectedPokemon?.abilities
-                .map(
-                  (ability) =>
-                    ability.ability.name.charAt(0).toUpperCase() +
-                    ability.ability.name.slice(1)
-                )
-                .join(", ")}
-            </p>
+            <Details selectedPokemon={selectedPokemon} />
           </>
         )}
       </div>
-      {pokemonSpecies && pokemonSpecies?.flavor_text_entries > 0 && (
+
+      {/* {pokemonSpecies && pokemonSpecies?.flavor_text_entries > 0 && (
         <div>
           <h3 className={classes.pokemonInfoItem}>Description</h3>
           {(() => {
@@ -135,17 +97,15 @@ function Pokedex() {
             }
           })()}
         </div>
-      )}
+      )} */}
       {selectedPokemon &&
         pokemonSpecies &&
         evolutionChain &&
         evolutionChain?.evolves_to.length > 0 && (
-          <div className={classes.pokemonEvolutionContainer}>
-            <div className={classes.pokemonInfoItem}>
-              <h3 className={classes.h3}>Evolutions</h3>
-              {pokemonSpecies && <EvolutionChain chain={evolutionChain} />}
-            </div>
-          </div>
+          <PokemonEvolutions
+            pokemonSpecies={pokemonSpecies}
+            evolutionChain={evolutionChain}
+          />
         )}
     </div>
   );

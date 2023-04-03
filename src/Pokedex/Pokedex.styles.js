@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "7px 0 0 10px",
   },
   miniIndicatorLight: {
-    color: (props) => props.color + "!important" || "red",
+    fill: (props) => props.color + " !important" || "red",
+    color: (props) => props.color + " !important" || "red",
     borderRadius: "100%",
     border: "1px solid black",
   },

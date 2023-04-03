@@ -4,11 +4,7 @@ import { Circle } from "@mui/icons-material";
 function MiniIndicatorLight(props) {
   const classes = useStyles(props);
   return (
-    <Circle
-      sx={{}}
-      className={classes.miniIndicatorLight}
-      color={props.color}
-    />
+    <Circle sx={{ fill: props.color }} className={classes.miniIndicatorLight} />
   );
 }
 
